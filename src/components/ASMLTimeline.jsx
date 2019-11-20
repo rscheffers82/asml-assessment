@@ -1,6 +1,7 @@
 import React from "react"
 import { connect } from 'react-redux'
 import Timeline from "react-calendar-timeline"
+import PropTypes from 'prop-types'
 import { defaultTimeStart, defaultTimeEnd, interval } from '../config'
 
 import { generateEngineerItems } from "../helpers/generate-engineer-items"
@@ -50,6 +51,33 @@ const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
     updateItemsFunc(updatedItems);
   };
 
+  const invalidInput = (input, currentValue) => !input || isNaN(Number(input)) || Number(input) === currentValue || Number(input) === 0;
+
+  const updateEngineerCount = (itemId) => {
+    const item = items.reduce((selected, item) => {
+      if (selected) return selected;
+      return item.id === itemId ? item : null;
+    }, null);
+
+    const currentValue = item.itemProps['data-engineers'];
+    const message = `Currently ${currentValue} engineer${currentValue === 1 ? ' is' : 's are'} needed for ${item.title}. Update the number below to make a change.`;
+    const input = prompt(message, currentValue);
+    if (!input || invalidInput(input, currentValue)) {
+      return;
+    };
+
+    const engineerCount = Number(input);
+    const updatedItems = items.map(item =>
+      item.id === itemId
+        ? {
+            ...item,
+            itemProps: { ...item.itemProps, 'data-engineers': Number(engineerCount) }
+          }
+        : item
+    );
+    updateItemsFunc(updatedItems);
+  }
+
   const engineerCountItems = generateEngineerItems(items);
 
   return (
@@ -75,6 +103,7 @@ const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
         dragSnap={interval}
         minZoom={defaultZoom}
         maxZoom={defaultZoom}
+        onItemDoubleClick={updateEngineerCount}
       />
     </div>
   );
@@ -87,6 +116,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   updateItemsFunc: updateItems,
+}
+
+ASMLTimeline.propTypes = {
+  groups: PropTypes.shape([]),
+  items: PropTypes.shape([]),
+  updateItemsFunc: PropTypes.func.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ASMLTimeline);
