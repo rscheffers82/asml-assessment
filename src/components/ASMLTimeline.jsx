@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Timeline from "react-calendar-timeline";
-import moment from "moment";
+import { defaultTimeStart, defaultTimeEnd, interval } from '../config';
 
-import initialData from './initial-data';
+import initialData from '../helpers/initial-data';
+import { generateEngineerItems } from "../helpers/generate-engineer-items";
 
 var keys = {
   groupIdKey: "id",
@@ -21,19 +22,11 @@ export default class ASMLTimeline extends Component {
   constructor(props) {
     super(props);
     const { groups, items } = initialData();
-    const defaultTimeStart = moment()
-      .startOf("day")
-      .toDate();
-    const defaultTimeEnd = moment()
-      .startOf("day")
-      .add(7, "day")
-      .toDate();
 
     this.state = {
       groups,
       items,
-      defaultTimeStart,
-      defaultTimeEnd
+      defaultZoom: 7 * 24 * 60 * 60 * 1000,
     };
   }
 
@@ -73,13 +66,17 @@ export default class ASMLTimeline extends Component {
   };
 
   render() {
-    const { groups, items, defaultTimeStart, defaultTimeEnd } = this.state;
+    const { groups, items, defaultZoom } = this.state;
+    const engineerCountItems = generateEngineerItems(items);
 
     return (
       <div>
         <Timeline
           groups={groups}
-          items={items}
+          items={[
+            ...engineerCountItems,
+            ...items
+          ]}
           keys={keys}
           fullUpdate
           itemTouchSendsClick={false}
@@ -87,12 +84,14 @@ export default class ASMLTimeline extends Component {
           itemHeightRatio={0.75}
           canMove
           canResize={"both"}
-          defaultTimeStart={defaultTimeStart}
-          defaultTimeEnd={defaultTimeEnd}
+          defaultTimeStart={defaultTimeStart.toDate()}
+          defaultTimeEnd={defaultTimeEnd.toDate()}
           onItemMove={this.handleItemMove}
           onItemResize={this.handleItemResize}
           timeSteps={{ hour: 12 }}
-          dragSnap={12 * 60 * 60 * 1000}
+          dragSnap={interval}
+          minZoom={defaultZoom}
+          maxZoom={defaultZoom}
         />
       </div>
     );
