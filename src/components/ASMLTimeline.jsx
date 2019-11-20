@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import Timeline from "react-calendar-timeline";
-import { defaultTimeStart, defaultTimeEnd, interval } from '../config';
+import React from "react"
+import { connect } from 'react-redux'
+import Timeline from "react-calendar-timeline"
+import { defaultTimeStart, defaultTimeEnd, interval } from '../config'
 
-import initialData from '../helpers/initial-data';
-import { generateEngineerItems } from "../helpers/generate-engineer-items";
+import { generateEngineerItems } from "../helpers/generate-engineer-items"
+import { updateItems } from "../redux/actions"
 
 var keys = {
   groupIdKey: "id",
@@ -18,25 +19,12 @@ var keys = {
   groupLabelKey: "title"
 };
 
-export default class ASMLTimeline extends Component {
-  constructor(props) {
-    super(props);
-    const { groups, items } = initialData();
+const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
+  const defaultZoom = 7 * 24 * 60 * 60 * 1000;
 
-    this.state = {
-      groups,
-      items,
-      defaultZoom: 7 * 24 * 60 * 60 * 1000,
-    };
-  }
-
-  handleItemMove = (itemId, dragTime, newGroupOrder) => {
-    const { items, groups } = this.state;
-
+  const handleItemMove = (itemId, dragTime, newGroupOrder) => {
     const group = groups[newGroupOrder];
-
-    this.setState({
-      items: items.map(item =>
+    const updatedItems = items.map(item =>
         item.id === itemId
           ? {
               ...item,
@@ -45,55 +33,60 @@ export default class ASMLTimeline extends Component {
               group: group.id
             }
           : item
-      )
-    });
+      );
+    updateItemsFunc(updatedItems);
   };
 
-  handleItemResize = (itemId, time, edge) => {
-    const { items } = this.state;
-
-    this.setState({
-      items: items.map(item =>
-        item.id === itemId
-          ? {
-              ...item,
-              start: edge === "left" ? time : item.start,
-              end: edge === "left" ? item.end : time
-            }
-          : item
-      )
-    });
-  };
-
-  render() {
-    const { groups, items, defaultZoom } = this.state;
-    const engineerCountItems = generateEngineerItems(items);
-
-    return (
-      <div>
-        <Timeline
-          groups={groups}
-          items={[
-            ...engineerCountItems,
-            ...items
-          ]}
-          keys={keys}
-          fullUpdate
-          itemTouchSendsClick={false}
-          stackItems
-          itemHeightRatio={0.75}
-          canMove
-          canResize={"both"}
-          defaultTimeStart={defaultTimeStart.toDate()}
-          defaultTimeEnd={defaultTimeEnd.toDate()}
-          onItemMove={this.handleItemMove}
-          onItemResize={this.handleItemResize}
-          timeSteps={{ hour: 12 }}
-          dragSnap={interval}
-          minZoom={defaultZoom}
-          maxZoom={defaultZoom}
-        />
-      </div>
+  const handleItemResize = (itemId, time, edge) => {
+    const updatedItems = items.map(item =>
+      item.id === itemId
+        ? {
+            ...item,
+            start: edge === "left" ? time : item.start,
+            end: edge === "left" ? item.end : time
+          }
+        : item
     );
-  }
+    updateItemsFunc(updatedItems);
+  };
+
+  const engineerCountItems = generateEngineerItems(items);
+
+  return (
+    <div>
+      <Timeline
+        groups={groups}
+        items={[
+          ...engineerCountItems,
+          ...items
+        ]}
+        keys={keys}
+        fullUpdate
+        itemTouchSendsClick={false}
+        stackItems
+        itemHeightRatio={0.75}
+        canMove
+        canResize={"both"}
+        defaultTimeStart={defaultTimeStart.toDate()}
+        defaultTimeEnd={defaultTimeEnd.toDate()}
+        onItemMove={handleItemMove}
+        onItemResize={handleItemResize}
+        timeSteps={{ hour: 12 }}
+        dragSnap={interval}
+        minZoom={defaultZoom}
+        maxZoom={defaultZoom}
+      />
+    </div>
+  );
 }
+
+const mapStateToProps = (state) => ({
+  groups: state.groups,
+  items: state.items,
+});
+
+const mapDispatchToProps = {
+  updateItemsFunc: updateItems,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ASMLTimeline);
