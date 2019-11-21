@@ -1,4 +1,18 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ASML Assessment | Lithography system service and Service Action/Engineer overview
+
+![ASML Assessment | Lithography system service and Service Action/Engineer overview](https://raw.githubusercontent.com/rscheffers82/asml-assessment/master/src/resources/app-screenshot.png?raw=1)
+
+---
+
+## Goal of the application
+
+This applications is an overview of several Lithography system services, their service actions and how many engineers are at any given time active. Service actions can be moved to a different time slot, extended or shortened, and the count of engineers can be updated. It offers the user a means to adjust service actions and quickly gain an insight into how many engineers are working at any given moment.
+
+
+## Known issues or next features
+
+- When a service action is updated by dragging it, extending or shortening it, or by editing the number of engineers, the total engineer count per time slot lags behind. The total is updated when a service action is shortly dragged but it is not necessary moved.
+- Extend upon the basic test suite. 
 
 ## Available Scripts
 
@@ -26,3 +40,5 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
