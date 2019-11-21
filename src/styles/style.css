@@ -39,6 +39,9 @@ body {
     font-size: 1rem !important;
   }
 
+.react-calendar-timeline .rct-calendar-header div:first-child {
+  height: 55px !important;
+}
 .react-calendar-timeline .rct-header-root {
   background-color: #273859 !important;
 }

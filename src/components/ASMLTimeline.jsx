@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { connect } from 'react-redux'
 import Timeline, { TimelineHeaders, DateHeader } from "react-calendar-timeline"
 import PropTypes from 'prop-types'
@@ -21,6 +21,10 @@ var keys = {
 };
 
 const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
+  const [ engineerCountItems, setEngineerCountItems ] = useState(generateEngineerItems(items));
+  useEffect(() => {
+    setEngineerCountItems(generateEngineerItems(items));
+  }, items);
   const defaultZoom = 7 * 24 * 60 * 60 * 1000;
 
   const handleItemMove = (itemId, dragTime, newGroupOrder) => {
@@ -36,6 +40,7 @@ const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
           : item
       );
     updateItemsFunc(updatedItems);
+    setEngineerCountItems(generateEngineerItems(updatedItems));
   };
 
   const handleItemResize = (itemId, time, edge) => {
@@ -49,6 +54,7 @@ const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
         : item
     );
     updateItemsFunc(updatedItems);
+    setEngineerCountItems(generateEngineerItems(updatedItems));
   };
 
   const invalidInput = (input, currentValue) => !input || isNaN(Number(input)) || Number(input) === currentValue || Number(input) === 0;
@@ -77,9 +83,8 @@ const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
         : item
     );
     updateItemsFunc(updatedItems);
+    setEngineerCountItems(generateEngineerItems(updatedItems));
   }
-
-  const engineerCountItems = generateEngineerItems(items);
 
   return (
     <div>
@@ -112,7 +117,7 @@ const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
           <DateHeader
             unit="hour"
             labelFormat="hh:mm"
-            style={{ height: 50, color: '#999999' }}      
+            style={{ height: 50, color: '#999999' }}
           />
         </TimelineHeaders>
       </Timeline>

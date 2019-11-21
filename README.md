@@ -6,13 +6,13 @@
 
 ## Goal of the application
 
-This applications is an overview of several Lithography system services, their service actions and how many engineers are at any given time active. Service actions can be moved to a different time slot, extended or shortened, and the count of engineers can be updated. It offers the user a means to adjust service actions and quickly gain an insight into how many engineers are working at any given moment.
+This applications is an overview of several Lithography system services, their service actions, and how many engineers are at any given time active. Service actions can be moved to a different time slot, extended or shortened, and the count of engineers can be updated. It offers the user a means to adjust service actions and quickly gain an insight into how many engineers are working at any given moment.
 
 
 ## Known issues or next features
 
-- When a service action is updated by dragging it, extending or shortening it, or by editing the number of engineers, the total engineer count per time slot lags behind. The total is updated when a service action is shortly dragged but it is not necessary moved.
-- Extend upon the basic test suite. 
+- Lock scroll window of the planner to 7 days.
+- Extend upon the basic test suite.
 
 ## Available Scripts
 

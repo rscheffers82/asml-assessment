@@ -2,7 +2,7 @@ import React from 'react'
 import logo from '../resources/asml-logo.png';
 const Intro = () => (
     <div className="intro">
-        <img src={logo} className="intro__logo" />
+        <img src={logo} className="intro__logo" alt="ASML Logo" />
         <h1>Lithography system service and Service Action/Engineer overview</h1>
         <p>
             The below schedule shows how many engineers are at work at any given time interval.<br />
