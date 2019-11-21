@@ -4,6 +4,10 @@
   "description": "Timline which displays several lithography systems, their service actions and how many engineers are active at any given time",
   "keywords": [],
   "main": "index.js",
+  "engines": {
+    "npm": "6.9.0",
+    "node": "10.15.3"
+  },
   "dependencies": {
     "interactjs": "^1.3.4",
     "moment": "2.18.1",
