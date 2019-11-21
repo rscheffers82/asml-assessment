@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from 'react-redux'
-import Timeline from "react-calendar-timeline"
+import Timeline, { TimelineHeaders, DateHeader } from "react-calendar-timeline"
 import PropTypes from 'prop-types'
 import { defaultTimeStart, defaultTimeEnd, interval } from '../config'
 
@@ -58,6 +58,7 @@ const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
       if (selected) return selected;
       return item.id === itemId ? item : null;
     }, null);
+    if(!item) return;
 
     const currentValue = item.itemProps['data-engineers'];
     const message = `Currently ${currentValue} engineer${currentValue === 1 ? ' is' : 's are'} needed for ${item.title}. Update the number below to make a change.`;
@@ -104,7 +105,17 @@ const ASMLTimeline = ({ groups, items, updateItemsFunc }) => {
         minZoom={defaultZoom}
         maxZoom={defaultZoom}
         onItemDoubleClick={updateEngineerCount}
-      />
+        lineHeight={50}
+      >
+        <TimelineHeaders>
+          <DateHeader unit="primaryHeader" />
+          <DateHeader
+            unit="hour"
+            labelFormat="hh:mm"
+            style={{ height: 50, color: '#999999' }}      
+          />
+        </TimelineHeaders>
+      </Timeline>
     </div>
   );
 }
@@ -119,8 +130,8 @@ const mapDispatchToProps = {
 }
 
 ASMLTimeline.propTypes = {
-  groups: PropTypes.shape([]),
-  items: PropTypes.shape([]),
+  groups: PropTypes.arrayOf(PropTypes.shape({})),
+  items: PropTypes.arrayOf(PropTypes.shape({})),
   updateItemsFunc: PropTypes.func.isRequired,
 }
 

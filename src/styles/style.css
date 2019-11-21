@@ -1,5 +1,49 @@
+* { 
+  font-size: 100%;
+}
+
+body {
+  margin-top: 2rem;
+  font-size: 1.125rem;
+}
+
+.react-calendar-timeline .rct-items .rct-item {
+  border: 1px solid rgba(40, 40, 40, 0.5) !important;
+}
+.react-calendar-timeline .rct-items .rct-item.machine_1 {
+  background-color: #273859 !important;
+}
+
+.react-calendar-timeline .rct-items .rct-item.machine_2 {
+  background-color: #455D8C !important;
+}
+
+.react-calendar-timeline .rct-items .rct-item.machine_3 {
+  background-color: #7A91BF !important;
+}
+
+.react-calendar-timeline .rct-items .rct-item.machine_4 {
+  background-color: #BF947A !important;
+}
+
+.react-calendar-timeline .rct-items .rct-item.machine_5 {
+  background-color: #401E12 !important;
+}
+
 .react-calendar-timeline .rct-items .rct-item.engineer {
-    background-color: #990000 !important;
-    border: 1px solid #fafafc !important;
+    background-color: transparent !important;
+    border: 1px solid transparent !important;
+    text-align: center;
     cursor: default !important;
+    color: #000011 !important;
+    font-size: 1rem !important;
   }
+
+.react-calendar-timeline .rct-header-root {
+  background-color: #273859 !important;
+}
+
+.intro__logo {
+  width: 300px;
+  height: auto;
+}
