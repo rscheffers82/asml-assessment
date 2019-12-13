@@ -1,9 +1,9 @@
-import moment from "moment";
-import * as config from "../config";
+import moment from 'moment';
+import * as config from '../config';
 
 // local helper function for generateEngineerItems
-export const withinTimeSlot = (item, index) => {
-  const { defaultTimeStart, interval } = config;
+const withinTimeSlot = (item, index) => {
+  const {defaultTimeStart, interval} = config;
 
   const timeSlotStart = defaultTimeStart.valueOf() + interval * index;
   const timeSlotEnd = defaultTimeStart.valueOf() + interval + interval * index;
@@ -15,7 +15,7 @@ export const withinTimeSlot = (item, index) => {
 };
 
 export const generateEngineerItems = (items = []) => {
-  const { defaultTimeStart, defaultTimeEnd, interval } = config;
+  const {defaultTimeStart, defaultTimeEnd, interval} = config;
 
   const timeSlots =
     (defaultTimeEnd.valueOf() - defaultTimeStart.valueOf()) / interval;
@@ -28,23 +28,23 @@ export const generateEngineerItems = (items = []) => {
         // map over all items and return the total count of engineers within the time slot.
         const engineers = items.reduce((acc, item) => {
           return withinTimeSlot(item, index)
-            ? acc + item.itemProps["data-engineers"]
+            ? acc + item.itemProps['data-engineers']
             : acc;
         }, 0);
 
         return {
           id: `engineers_${index}`,
-          group: "0",
+          group: '0',
           title: engineers,
           start: moment(defaultTimeStart)
-            .add(12 * index, "hours")
+            .add(12 * index, 'hours')
             .valueOf(),
           end: moment(defaultTimeStart)
-            .add(12 + 12 * index, "hours")
+            .add(12 + 12 * index, 'hours')
             .valueOf(),
-          className: "engineer",
-          canMove: false
+          className: 'engineer',
+          canMove: false,
         };
-      })
+      }),
   ];
 };
