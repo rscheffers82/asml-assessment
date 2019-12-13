@@ -1,6 +1,6 @@
-import { createStore } from 'redux'
-import initialData from '../helpers/initial-data'
-import reducer from './reducer'
+import {createStore} from 'redux';
+import initialData from '../helpers/initial-data';
+import reducer from './reducer';
 
 const store = createStore(
   reducer,
